@@ -7,9 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Login - SB Admin Pro</title>
+    <title>Login - Sate Perawan</title>
     <link href="{{ asset('css/styles.css') }}" rel="stylesheet" />
-    <link rel="icon" type="image/x-icon" href="{{ asset('assets/img/favicon.png') }}" />
+    <link rel="icon" type="image/x-icon" href="{{ asset('assets/img/logo-sp-no text.png') }}" />
     <script data-search-pseudo-elements defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/js/all.min.js"
         crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js" crossorigin="anonymous">
@@ -20,13 +20,13 @@
     <div id="layoutAuthentication">
         <div id="layoutAuthentication_content">
             <main>
-                <div class="container-xl px-4">
+                <div class="container-xl px-4   ">
                     <div class="row justify-content-center">
                         <div class="col-lg-5">
                             <!-- Basic login form-->
                             <div class="card shadow-lg border-0 rounded-lg mt-5">
-                                <div class="card-header justify-content-center">
-                                    <h3 class="fw-light my-4">Login</h3>
+                                <div class="card-header justify-content-center text-center">
+                                    <h3 class="fs-1 fw-bold  my-4">Login</h3>
                                 </div>
                                 <div class="card-body">
                                     <!-- Login form-->
@@ -46,8 +46,8 @@
                                         </div>
 
                                         <!-- Form Group (login box)-->
-                                        <div class="d-flex align-items-center justify-content-end mt-4 mb-0">
-                                            <button class="btn btn-primary" type="submit">Login</button>
+                                        <div class="d-flex align-items-center mt-4 mb-0">
+                                            <button class="btn btn-primary w-100" type="submit">Login</button>
                                         </div>
                                     </form>
                                     @if ($errors->any())
@@ -79,6 +79,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous">
     </script>
     <script src="{{ asset('js/scripts.js') }}"></script>
+    
 </body>
 
 </html>

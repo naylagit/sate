@@ -26,10 +26,6 @@
                         </div>
                     </h6>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#!">
-                        <div class="dropdown-item-icon"><i data-feather="settings"></i></div>
-                        Account
-                    </a>
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
                         <button class="dropdown-item" type="submit">

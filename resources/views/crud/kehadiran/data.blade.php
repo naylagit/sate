@@ -12,16 +12,7 @@
                         </h1>
 
                     </div>
-                    {{-- <div class="col-12 col-xl-auto mb-3">
 
-                        @if ($data->isEmpty() || $data[0]['tanggal'] != \Carbon\Carbon::now()->toDateString())
-                            <a class="btn btn-sm btn-light text-primary" href="{{ $page }}/create">
-                                <i class="me-1" data-feather="user-plus"></i>
-                                Tambahkan {{ $page }}
-                            </a>
-                        @endif
-
-                    </div> --}}
                 </div>
             </div>
         </div>
@@ -31,55 +22,26 @@
 
 @section('content')
     <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">Data Kehadiran
+
+            <div class="">
+                <select id="monthFilter" class="form-select d-inline w-auto">
+                    <option value="all" {{ $month == 'all' ? 'selected' : '' }}>All</option>
+                    @foreach (range(1, 12) as $m)
+                        <option value="{{ $m }}" {{ $month == $m ? 'selected' : '' }}>
+                            {{ date('F', mktime(0, 0, 0, $m, 1)) }}
+                        </option>
+                    @endforeach
+                </select>
+                <a class="btn btn-green " href='/export/data/kehadiran/{{ $month }}'>
+                    <i data-feather="link" class="me-2"></i> Export
+                </a>
+
+            </div>
+
+        </div>
 
         <div class="card-body">
-            <div class="d-flex justify-content-between">
-                <a href="/export/kehadiran/list/{{ request()->segment(3) }}" class="btn btn-success"><i
-                        class="fa-solid fa-file-excel me-2"></i>Export</a>
-                <div class="dropdown">
-                    <button class="btn btn-primary dropdown-toggle" id="dropdownMenuButton" type="button"
-                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-
-                        @php
-                            $months = [
-                                1 => 'January',
-                                2 => 'February',
-                                3 => 'March',
-                                4 => 'April',
-                                5 => 'May',
-                                6 => 'June',
-                                7 => 'July',
-                                8 => 'August',
-                                9 => 'September',
-                                10 => 'October',
-                                11 => 'November',
-                                12 => 'December',
-                            ];
-                            $currentMonth = request()->segment(3); // Get the month from the URL
-                        @endphp
-
-
-                        @if (!$currentMonth)
-                            {{ $months[\Carbon\Carbon::now()->month] }}
-                        @else
-                            {{ $months[$currentMonth] }}
-                        @endif
-
-
-
-
-
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-
-                        @foreach ($months as $key => $month)
-                            <a class="dropdown-item {{ $key == $currentMonth ? 'active' : '' }}"
-                                href="{{ url('kehadiran/list/' . $key) }}">{{ $month }}</a>
-                        @endforeach
-                    </div>
-                </div>
-            </div>
-            <hr>
 
             <table id="datatablesSimple">
                 <thead>
@@ -92,15 +54,7 @@
 
                     </tr>
                 </thead>
-                {{-- <tfoot>
-                    <tr>
-                        <th>No</th>
-                        @foreach ($fields as $field)
-                            <th>{{ $field['label'] }}</th>
-                        @endforeach
-                        <th>Actions</th>
-                    </tr>
-                </tfoot> --}}
+ 
                 <tbody>
                     @foreach ($data as $key => $d)
                         <tr>
@@ -140,12 +94,9 @@
 
 
                             <td class="text-center">
-
-
                                 <a class="btn btn-datatable btn-icon btn-transparent-dark me-2"
-                                    href="/{{ $page }}/{{ $d['id'] }}"><i class="fa-solid fa-info"></i></a>
-
-
+                                    href="/data/{{ $page }}/{{ $d['id'] }}/{{ \Carbon\Carbon::now()->month }}"><i
+                                        class="fa-solid fa-info"></i></a>
                             </td>
                         </tr>
                     @endforeach
@@ -155,3 +106,16 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script>
+        document.getElementById('monthFilter').addEventListener('change', function() {
+            var month = this.value;
+            var url = '/data/kehadiran/all';
+            if (month) {
+                url += '/' + month;
+            }
+            window.location.href = url;
+        });
+    </script>
+@endpush

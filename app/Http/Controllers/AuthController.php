@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
 
 class AuthController extends Controller
 {
@@ -21,11 +22,23 @@ class AuthController extends Controller
             'email' => 'required|email',
             'password' => 'required|min:6',
         ]);
-
+    
         if (Auth::attempt($request->only('email', 'password'))) {
-            return redirect()->intended('dashboard');
-        }
+            $user = Auth::user();
+            
+         
+            if ($user->role === 'owner') {
+                return redirect()->intended('dashboard');
+                 // Store role in session
+        
+            } else {
 
+           
+
+                return redirect('/kehadiran/'.Carbon::now()->month);
+            }
+        }
+    
         return back()->withErrors([
             'email' => 'Email atau Password tidak sesuai',
         ]);

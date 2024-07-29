@@ -13,9 +13,8 @@ return new class extends Migration
     {
         Schema::create('bahan_bakus', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('kategori_bahan_baku_id')->constrained('kategori_bahan_bakus')->onDelete('cascade');
             $table->string('nama');
-            $table->integer('stok');
+            $table->float('stok');
             $table->timestamps();
         });
     }
