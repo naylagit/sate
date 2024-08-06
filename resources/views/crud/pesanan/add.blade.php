@@ -282,20 +282,14 @@
                                 <option value="cash">
                                     Cash
                                 </option>
-                                <option value="qris">
+                                <option value="debit">
                                     Debit
                                 </option>
                             </select>
                         </div>
 
-                        {{-- <div class="col-md-6 mb-3">
-                            <label class="small mb-1">Keterangan</label>
-                            <input class="form-control" id="keterangan" name="keterangan" type="text"
-                                placeholder=" Masukkan Keterangan" required />
 
-                        </div> --}}
-
-                        <div class="d-none">
+                        <div id="cash_payment" class="row">
 
                             <div class="col-md-12 mb-3">
                                 <label class="small mb-1" for="dibayarkan">Dibayarkan</label>
@@ -317,25 +311,25 @@
 
                         </div>
 
-                        <div class="row">
+                        <div id="debit_payment" class="row">
 
                             <div class="col-md-6 mb-3">
                                 <label class="small mb-1">Nama Bank</label>
-                                <select class="form-select" id="metode_pembayaran" name="metode_pembayaran"
+                                <select class="form-select" id="bank" name="bank"
                                     aria-label="Default select example">
                                     <option selected disabled>Pilh Bank:</option>
-                                    <option value="cash">
-                                        Cash
+                                    <option value="bri">
+                                        BRI
                                     </option>
-                                    <option value="qris">
-                                        Debit
+                                    <option value="bca">
+                                        BCA
                                     </option>
                                 </select>
                             </div>
 
                             <div class="col-md-6 mb-3">
-                                <label class="small mb-1" for="dibayarkan">Nomor Rekening</label>
-                                <input class="form-control" id="dibayarkan" name="dibayarkan" type="text"
+                                <label class="small mb-1" for="norek">Nomor Rekening</label>
+                                <input class="form-control" id="norek" name="norek" type="text"
                                     placeholder=" Masukkan Nomor Rekening" />
                             </div>
 
@@ -358,6 +352,14 @@
                             </div> --}}
 
                         </div>
+
+                        <div class="col-md-12 mb-3">
+                            <label class="small mb-1">Keterangan</label>
+                            <input class="form-control" id="keterangan" name="keterangan" type="text"
+                                placeholder=" Masukkan Keterangan" required />
+
+                        </div>
+
 
 
 
@@ -445,6 +447,36 @@
                 // Submit the form
                 $('#mainForm').submit();
             });
+
+
+            $('#metode_pembayaran').change(function() {
+                var selectedValue = $(this).val();
+
+                // Hide both payment divs
+                $('#cash_payment').addClass('d-none');
+                $('#debit_payment').addClass('d-none');
+
+                $('#dibayarkan').val("");
+                $('#kembalian').val("");
+                $('#kembalianDisplay').val("");
+                $('#norek').val("");
+                $('#kembalianDisplay').val("");
+                $('#bank').val("");
+
+
+                // Show the selected payment div
+                if (selectedValue === 'cash') {
+                    $('#cash_payment').removeClass('d-none');
+                } else if (selectedValue === 'debit') {
+                    var total = parseFloat($('#total').val());
+                    $('#dibayarkan').val(total);
+                    $('#kembalian').val(0);
+                    $('#debit_payment').removeClass('d-none');
+                }
+            });
+
+
+
         });
     </script>
     <script>

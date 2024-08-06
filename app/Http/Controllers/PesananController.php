@@ -14,6 +14,7 @@ use App\Exports\KeuntunganExport;
 use App\Exports\LaporanBahanBakuExport;
 use App\Models\Pesananmenu;
 use App\Models\Pemasukan;
+use App\Models\Pembayaran;
 use App\Models\Pengeluaran;
 use Maatwebsite\Excel\Facades\Excel;
 use Carbon\Carbon;
@@ -190,13 +191,6 @@ class PesananController extends Controller
            
          }
 
-
-
-
-
-      
-
-
          $validated['user_id'] = Auth::user()->id;
         
 
@@ -208,15 +202,16 @@ class PesananController extends Controller
                 'nominal' => $validated['total'],
                 'keterangan' => 'Penjualan-'.$pesanan['created_at']
             ]);
-           
+
+            if($validated['metode_pembayaran'] == 'debit'){
+
+                Pembayaran::create([
+                    'pesanan_id' => $pesanan['id'],
+                    'bank' =>  $request->input('bank'),
+                    'norek' =>  $request->input('norek'),
+                ]);
+            }
          }
-
-
-      
-
-       
-
-
          foreach ($request['items'] as $itemData) {
             $item = json_decode($itemData, true);
 
@@ -240,7 +235,9 @@ class PesananController extends Controller
 
         $items = PesananMenu::with('menu')->where('pesanan_id', $pesanan['id'])->get();
 
-       
+    
+
+
 
         if($validated['status'] == 2 ){
             $pdf = Pdf::loadView('pdf.faktur', compact('order', 'items'))->setPaper('a4')->setWarnings(false)->save('faktur_pembayaran.pdf');
