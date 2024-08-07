@@ -9,7 +9,13 @@ class Pesanan extends Model
 {
     use HasFactory;
 
+
+    protected $primaryKey = 'id';
+    public $incrementing = false;
+    protected $keyType = 'string';
+
     protected $fillable = [
+        'id',
         'user_id',
         'meja_id',
         'id_transaksi',
@@ -27,6 +33,11 @@ class Pesanan extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function pembayaran()
+    {
+        return $this->hasOne(Pembayaran::class, 'pesanan_id');
     }
 
 }

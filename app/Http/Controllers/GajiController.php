@@ -233,6 +233,7 @@ class GajiController extends Controller
             $page = 'gaji';
 
             $data = Gaji::where('id', $id)->with('user')->first();
+           
 
     if ($data) {
         // Get the user's name
@@ -247,6 +248,10 @@ class GajiController extends Controller
         $data->total_kehadiran = $attendancesCount;
 
         $data->bulan = Carbon::createFromDate(null, (int)$data->bulan, 1)->format('F');
+
+        if( $pinjaman = Pinjaman::where('user_id', $data->user->id)->first()){
+            $data->total = $data->total - $pinjaman->total;
+        }
     }
 
 

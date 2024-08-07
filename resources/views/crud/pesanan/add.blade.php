@@ -278,8 +278,8 @@
                             <label class="small mb-1">Metode Pembayaran</label>
                             <select class="form-select" id="metode_pembayaran" name="metode_pembayaran"
                                 aria-label="Default select example">
-                                <option selected disabled>Metode Pembayaran:</option>
-                                <option value="cash">
+
+                                <option value="cash" selected>
                                     Cash
                                 </option>
                                 <option value="debit">
@@ -289,11 +289,11 @@
                         </div>
 
 
-                        <div id="cash_payment" class="row">
+                        <div id="cash_payment" class="row ">
 
                             <div class="col-md-12 mb-3">
                                 <label class="small mb-1" for="dibayarkan">Dibayarkan</label>
-                                <input class="form-control" id="dibayarkan" name="dibayarkan" type="text"
+                                <input class="form-control" id="dibayarkan" name="dibayarkan" type="text" value=0
                                     placeholder=" Masukkan Jumlah Dibayarkan" />
                             </div>
 
@@ -303,7 +303,7 @@
 
                             <div class="col-md-12 mb-3">
                                 <label class="small mb-1" for="kembalian">Kembalian</label>
-                                <input class="form-control" id="kembalian" name="kembalian" type="hidden"
+                                <input class="form-control" id="kembalian" name="kembalian" type="hidden" value=0
                                     placeholder="Jumlah Kembalian" readonly />
                                 <input class="form-control" id="kembalianDisplay" name="kembalianDisplay" type="text"
                                     placeholder="Jumlah Kembalian" readonly />
@@ -311,7 +311,7 @@
 
                         </div>
 
-                        <div id="debit_payment" class="row">
+                        <div id="debit_payment" class="row d-none">
 
                             <div class="col-md-6 mb-3">
                                 <label class="small mb-1">Nama Bank</label>
@@ -350,13 +350,6 @@
                                 <input class="form-control" id="kembalianDisplay" name="kembalianDisplay" type="text"
                                     placeholder="Jumlah Kembalian" readonly />
                             </div> --}}
-
-                        </div>
-
-                        <div class="col-md-12 mb-3">
-                            <label class="small mb-1">Keterangan</label>
-                            <input class="form-control" id="keterangan" name="keterangan" type="text"
-                                placeholder=" Masukkan Keterangan" required />
 
                         </div>
 
@@ -456,11 +449,11 @@
                 $('#cash_payment').addClass('d-none');
                 $('#debit_payment').addClass('d-none');
 
-                $('#dibayarkan').val("");
-                $('#kembalian').val("");
-                $('#kembalianDisplay').val("");
+                $('#dibayarkan').val(0);
+                $('#kembalian').val(0);
+                $('#kembalianDisplay').val(0);
                 $('#norek').val("");
-                $('#kembalianDisplay').val("");
+                $('#kembalianDisplay').val(0);
                 $('#bank').val("");
 
 
@@ -520,7 +513,7 @@
                 const subtotal_display = 'Rp ' + parseInt(subtotalInput.value).toLocaleString();
                 const keterangan = keteranganInput.value;
 
-                if (namaMenu && jumlah && subtotal && keterangan) {
+                if (namaMenu && jumlah && subtotal) {
                     const newRow = document.createElement('tr');
                     newRow.innerHTML = `
                     <td>${itemNumber}</td>

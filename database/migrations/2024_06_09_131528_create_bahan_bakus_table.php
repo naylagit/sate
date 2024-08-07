@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('bahan_bakus', function (Blueprint $table) {
             $table->id();
             $table->string('nama');
-            $table->float('stok');
+            $table->decimal('stok', 15, 2);
             $table->timestamps();
         });
     }

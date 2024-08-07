@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('pembayarans', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('pesanan_id')->constrained('pesanans')->onDelete('cascade');
+            $table->string('pesanan_id');
+            $table->foreign('pesanan_id')->references('id')->on('pesanans')->onDelete('cascade');
             $table->string('bank');
             $table->string('norek');
             $table->timestamps();

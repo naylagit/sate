@@ -153,9 +153,15 @@ class PesananController extends Controller
             ['type' => 'number', 'name' => 'harga', 'label' => 'Harga Menu'],
             ['type' => 'select', 'name' => 'status', 'label' => 'Status'],
         ];
-        $id = Pesanan::orderBy('created_at','desc')->first()->id;
-        $id = $id+1;
-        $id_transaksi = random_int(10000, 99999);
+          $latestPesanan = Pesanan::orderBy('id', 'desc')->first();
+          if ($latestPesanan) {
+            $latestId = $latestPesanan->id;
+            $id = 'P' . str_pad((int) substr($latestId, 1) + 1, 5, '0', STR_PAD_LEFT);
+        } else {
+            // First entry
+            $id = 'P00001';
+        }
+        $id_transaksi = $id;
 
         $menu = Menu::where('status', 1)->get();
         $meja = Meja::where('status', 1)->get();
@@ -175,13 +181,14 @@ class PesananController extends Controller
              'dibayarkan' => 'required|string|max:255',
              'kembalian' => 'required|string|max:255',
              'status' => 'required|string|max:255',
-             'id_transaksi' => 'required|string|max:255',
              'nm_cust' => 'required|string|max:255',
-             'keterangan' => 'required|string|max:255',
+             'keterangan' => 'nullable|string|max:255',
          ]);
 
+         $validated['id'] = $request->input('id_transaksi');
+
          if($validated['status'] == 2){
-            $existPesanan = Pesanan::where('id_transaksi', $validated['id_transaksi'])->first();
+            $existPesanan = Pesanan::where('id', $request->input('id_transaksi'))->first();
 
             if($existPesanan){
                 $existMenu = PesananMenu::where('pesanan_id',$existPesanan->id)->first();
@@ -191,8 +198,8 @@ class PesananController extends Controller
            
          }
 
-         $validated['user_id'] = Auth::user()->id;
-        
+         $validated['user_id'] = Auth::user()->id;    
+
 
          $pesanan = Pesanan::create($validated);
 
@@ -227,11 +234,13 @@ class PesananController extends Controller
 
             $pesananMenu->save();
 
+
+
             $items[] = $pesananMenu;
 
         }
 
-        $order = Pesanan::with('user')->find($pesanan['id']);
+        $order = Pesanan::with('user','pembayaran')->find($pesanan['id']);
 
         $items = PesananMenu::with('menu')->where('pesanan_id', $pesanan['id'])->get();
 
@@ -284,7 +293,6 @@ class PesananController extends Controller
          $dataMenu = Pesananmenu::where('');
 
          $pesananMenu = PesananMenu::with('menu')->where('pesanan_id', $id)->get();
-
 
          $menu = Menu::where('status', 1)->get();
          $meja = Meja::where('status', 1)->get();

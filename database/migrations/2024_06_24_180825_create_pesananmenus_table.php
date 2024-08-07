@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('pesananmenus', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('pesanan_id')->constrained('pesanans')->onDelete('cascade');
+            $table->string('pesanan_id');
+            $table->foreign('pesanan_id')->references('id')->on('pesanans')->onDelete('cascade');
             $table->foreignId('menu_id')->constrained('menus')->onDelete('cascade');
             $table->decimal('jumlah', 15, 2);
             $table->decimal('subtotal', 15, 2);
